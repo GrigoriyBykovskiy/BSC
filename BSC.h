@@ -21,6 +21,7 @@ void set_tchannel_t(TChannel* tchannel, unsigned t);
 void print_tchannel(TChannel* tchannel);
 bool get_BSC_status(TChannel* tchannel);
 bool get_BSC_result(TChannel* tchannel, bool tchannel_status);
+float get_rand();
 void simulation_BSC(TChannel* tchannel, unsigned count_of_generations);
 
 #endif //BSC_BSC_H

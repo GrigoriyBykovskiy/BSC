@@ -23,7 +23,7 @@ int main(int argc, char** argv)
         set_tchannel_t(channel, tmp_t);
         print_tchannel(channel);
         fprintf(stdout, "RAND MAX IS %d\n", RAND_MAX);
-        simulation_BSC(channel, 100000);
+        simulation_BSC(channel, 3125);
     }
     else
         fprintf(stderr, "ANTA BAKA?! Only 6 parameters are requirted!\n");

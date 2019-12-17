@@ -3,6 +3,13 @@
 #include <stdbool.h>
 #include "BSC.h"
 
+const float RAND_MAX_F = RAND_MAX;
+
+float get_rand()
+{
+    return rand() / RAND_MAX_F;
+};
+
 TChannel* init_tchannel()
 {
     TChannel* c = NULL;
@@ -68,9 +75,9 @@ void print_tchannel(TChannel* tchannel)
 
 bool get_BSC_status(TChannel* tchannel)// 0 - bad ; 1 - good
 {
-    unsigned probability_of_good_status = RAND_MAX * ((1 - tchannel->Pbb) / (2 - tchannel->Pgg - tchannel->Pbb));
-    unsigned rand_number = rand();
-
+    unsigned probability_of_good_status = /*RAND_MAX * */((1 - tchannel->Pbb) / (2 - tchannel->Pgg - tchannel->Pbb));
+    float rand_number = get_rand();
+    //printf("status rand %f\n", rand_number);
     if (rand_number > probability_of_good_status)
         return false;
     else
@@ -79,20 +86,20 @@ bool get_BSC_status(TChannel* tchannel)// 0 - bad ; 1 - good
 
 bool get_BSC_result(TChannel* tchannel, bool tchannel_status)
 {
-    unsigned probability_of_error_good_status = RAND_MAX * tchannel->Pg;
-    unsigned probability_of_error_bad_status = RAND_MAX * tchannel->Pb;
-    unsigned rand_number = rand();
-
+    //unsigned probability_of_error_good_status = RAND_MAX * tchannel->Pg;
+    //unsigned probability_of_error_bad_status = RAND_MAX * tchannel->Pb;
+    float rand_number = get_rand();
+    //printf("result rand %f\n", rand_number);
     if (tchannel_status) // good status
     {
-        if (rand_number > probability_of_error_good_status)
+        if (rand_number > tchannel->Pg)//probability_of_error_good_status)
             return false;
         else
             return true;
     }
     else // bad status
     {
-        if (rand_number > probability_of_error_bad_status)
+        if (rand_number > tchannel->Pb)//probability_of_error_bad_status)
             return false;
         else
             return true;
@@ -116,12 +123,12 @@ void simulation_BSC(TChannel* tchannel, unsigned count_of_generations)
             {
                 all_errors++;
                 errors_per_block++;
-
             }
         }
         if (errors_per_block > tchannel->t)
         {
             count_of_bad_blocks++;
+            errors_per_block = 0;
         }
     }
     fprintf(stdout, "Count of generations = %u\n", tchannel->n*count_of_generations);
