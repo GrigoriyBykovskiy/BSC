@@ -22,7 +22,6 @@ int main(int argc, char** argv)
         unsigned tmp_t = atoi(argv[6]);
         set_tchannel_t(channel, tmp_t);
         print_tchannel(channel);
-        fprintf(stdout, "RAND MAX IS %d\n", RAND_MAX);
         simulation_BSC(channel, 3125);
     }
     else
