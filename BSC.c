@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 #include "BSC.h"
 
 const float RAND_MAX_F = RAND_MAX;
@@ -60,7 +61,7 @@ void set_tchannel_t(TChannel* tchannel, unsigned t)
     tchannel->t = t;
 };
 
-void print_tchannel(TChannel* tchannel)
+void print_tchannel_content(TChannel* tchannel)
 {
     fprintf(stdout, "----------------CHANNEL----------------\n");
     fprintf(stdout, "|                                     |\n");
@@ -75,7 +76,7 @@ void print_tchannel(TChannel* tchannel)
 
 bool get_BSC_status(TChannel* tchannel)// 0 - bad ; 1 - good
 {
-    unsigned probability_of_good_status = ((1 - tchannel->Pbb) / (2 - tchannel->Pgg - tchannel->Pbb));
+    float probability_of_good_status = ((1 - tchannel->Pbb) / (2 - tchannel->Pgg - tchannel->Pbb));
     float rand_number = get_rand();
 
     if (rand_number > probability_of_good_status)
@@ -124,13 +125,18 @@ void simulation_BSC(TChannel* tchannel, unsigned count_of_generations)
                 errors_per_block++;
             }
         }
+
+        if (errors_per_block <= tchannel->t && errors_per_block != 0)
+        {
+            count_of_blocks_with_errors++;
+            errors_per_block = 0;
+        }
+
         if (errors_per_block > tchannel->t)
         {
             count_of_bad_blocks++;
             errors_per_block = 0;
         }
-        if (errors_per_block <= tchannel->t && errors_per_block != 0)
-            count_of_blocks_with_errors++;
     }
     fprintf(stdout, "----------------OUTPUT-----------------\n");
     fprintf(stdout, "|                                     |\n");

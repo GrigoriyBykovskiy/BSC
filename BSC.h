@@ -18,7 +18,7 @@ void set_tchannel_pbb(TChannel* tchannel, float pbb);
 void set_tchannel_pgg(TChannel* tchannel, float pgg);
 void set_tchannel_n(TChannel* tchannel, unsigned n);
 void set_tchannel_t(TChannel* tchannel, unsigned t);
-void print_tchannel(TChannel* tchannel);
+void print_tchannel_content(TChannel* tchannel);
 bool get_BSC_status(TChannel* tchannel);
 bool get_BSC_result(TChannel* tchannel, bool tchannel_status);
 float get_rand();

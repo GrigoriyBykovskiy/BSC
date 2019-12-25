@@ -21,7 +21,7 @@ int main(int argc, char** argv)
         set_tchannel_n(channel, tmp_n);
         unsigned tmp_t = atoi(argv[6]);
         set_tchannel_t(channel, tmp_t);
-        print_tchannel(channel);
+        print_tchannel_content(channel);
         simulation_BSC(channel, 3125);
     }
     else
